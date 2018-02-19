@@ -92,7 +92,20 @@ namespace stm32plus {
 
     // initialise
 
+
     USART_Init((USART_TypeDef *)PeripheralTraits<TPeripheralName>::PERIPHERAL_BASE,&init);
+
+    if (params.usart_synchronous == true)
+    {
+        USART_ClockInitTypeDef USART_ClockInitStruct;
+        USART_ClockStructInit(&USART_ClockInitStruct);
+
+        USART_ClockInitStruct.USART_Clock = USART_Clock_Enable;
+        USART_ClockInitStruct.USART_LastBit = USART_LastBit_Enable;
+
+        USART_ClockInit((USART_TypeDef *)PeripheralTraits<TPeripheralName>::PERIPHERAL_BASE, &USART_ClockInitStruct);
+    }
+
 
     // enable
 
