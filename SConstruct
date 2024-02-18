@@ -108,7 +108,7 @@ VERSION=os.popen('egrep "#define\s+STM32PLUS_BUILD" lib/include/config/stm32plus
 VERSION=VERSION.rstrip()
 
 if len(VERSION) != 6:
-  print "Unexpected error getting the library version"
+  print ("Unexpected error getting the library version")
   Exit(1)
 
 INSTALLDIR=ARGUMENTS.get('INSTALLDIR') or "/usr/local/arm-none-eabi"
@@ -131,11 +131,11 @@ else:
     osc_type = "i"
     osc_def = "HSI_VALUE"
   else:
-    print __doc__
+    print (__doc__)
     Exit(1)
 
 if not osc.isdigit():
-  print __doc__
+  print (__doc__)
   Exit(1)
 
 # examples off?
@@ -166,7 +166,7 @@ env.Append(CPPPATH=["#lib/include","#lib/include/stl","#lib"])
 
 # create the C and C++ flags that are needed. We can't use the extra or pedantic errors on the ST library code.
 
-env.Replace(CCFLAGS=["-Wall","-Werror","-ffunction-sections","-fdata-sections","-fno-exceptions","-mthumb","-gdwarf-2","-pipe"])
+env.Replace(CCFLAGS=["-Wall","-ffunction-sections","-fdata-sections","-fno-exceptions","-mthumb","-gdwarf-2","-pipe"])
 env.Replace(CXXFLAGS=["-Wextra","-pedantic-errors","-fno-rtti","-std=gnu++0x","-fno-threadsafe-statics"])
 env.Append(CCFLAGS="-D"+osc_def+"="+osc)
 env.Append(LINKFLAGS=["-Xlinker","--gc-sections","-mthumb","-g3","-gdwarf-2"])
@@ -213,7 +213,7 @@ elif mcu=="f030":
 elif mcu=="f042":
   setFlags("m0","F0_42")
 else:
-  print __doc__
+  print (__doc__)
   Exit(1)
 
 # add on the mode=specific optimisation definitions
@@ -225,7 +225,7 @@ elif mode=="fast":
 elif mode=="small":
   env.Append(CCFLAGS=["-Os"])
 else:
-  print __doc__
+  print (__doc__)
   Exit(1)
 
 # modify build flags and plugin location for using LTO
@@ -246,7 +246,7 @@ if lto=="yes":
     env.Append(ARFLAGS=["--plugin="+opts])
     env.Append(RANLIBFLAGS=["--plugin="+opts])
 
-print "stm32plus build version is "+VERSION
+print ("stm32plus build version is "+VERSION)
 
 systemprefix=mode+"-"+mcu+"-"+osc+osc_type
 if float:
@@ -263,8 +263,8 @@ env.Append(LIBS=[libstm32plus])
 
 # launch SConscript for the examples
 
-if build_examples!="no":
-    SConscript("examples/SConscript",exports=["mode","mcu","osc","osc_type","osc_def","env","systemprefix","INSTALLDIR","INSTALLDIR_PREFIX","VERSION"])
+#if build_examples!="no":
+#    SConscript("examples/SConscript",exports=["mode","mcu","osc","osc_type","osc_def","env","systemprefix","INSTALLDIR","INSTALLDIR_PREFIX","VERSION"])
 
 # build the CMake helper
 
